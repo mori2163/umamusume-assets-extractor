@@ -1,3 +1,5 @@
+
+Fork: Steam版に対応
 # Umamusume-Assets-Extractor
 ウマ娘のアセットファイルをダンプします (datフォルダにある英語の羅列のファイルに本来の名前を付けてコピーします)
 

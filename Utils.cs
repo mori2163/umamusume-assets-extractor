@@ -18,7 +18,9 @@ namespace Umamusume_Assets_Extractor
         public static int skippedFilesAmount = 0;
         // ディレクトリ関連の設定
         public static string extractFolderName = "Contents";
-        public static string gameDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume";
+        public static string gameDataPath = Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume")
+            ? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume"
+            : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\UmamusumePrettyDerby_Jpn";
         public static string metaPath = gameDataPath + @"\meta";
         public static string datPath = gameDataPath + @"\dat";
         // データベース関連の設定
