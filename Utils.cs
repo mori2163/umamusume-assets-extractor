@@ -18,11 +18,27 @@ namespace Umamusume_Assets_Extractor
         public static int skippedFilesAmount = 0;
         // ディレクトリ関連の設定
         public static string extractFolderName = "Contents";
-        public static string gameDataPath = Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume")
-            ? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume"
-            : Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\UmamusumePrettyDerby_Jpn";
+        public static string gameDataPath = GetGameDataPath();
         public static string metaPath = gameDataPath + @"\meta";
         public static string datPath = gameDataPath + @"\dat";
+
+        private static string GetGameDataPath()
+        {
+            // Steam版のパスをチェック
+            string steamPath = @"C:\Program Files (x86)\Steam\steamapps\common\UmamusumePrettyDerby_Jpn\UmamusumePrettyDerby_Jpn_Data\Persistent";
+            if (Directory.Exists(steamPath))
+                return steamPath;
+
+            // AppDataの標準パスをチェック
+            string standardPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\umamusume";
+            if (Directory.Exists(standardPath))
+                return standardPath;
+
+            // AppDataの日本語版パスをチェック（未確認）
+            string jpnPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\UmamusumePrettyDerby_Jpn";
+            return jpnPath;
+        }
+
         // データベース関連の設定
         public static string filePathColumn = "n";
         public static string sourceFileNameColumn = "h";
