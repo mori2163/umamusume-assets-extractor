@@ -34,9 +34,37 @@ namespace Umamusume_Assets_Extractor
             if (Directory.Exists(standardPath))
                 return standardPath;
 
-            // AppDataの日本語版パスをチェック（未確認）
-            string jpnPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"Low\Cygames\UmamusumePrettyDerby_Jpn";
-            return jpnPath;
+            // AppDataの標準パス(25/09/24以降のパス)
+            string standardPath2 = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\LocalLow\Cygames\umamusume\umamusume_Data\Persistent";
+            if (Directory.Exists(standardPath2))
+                return standardPath2;
+
+            // どのパスも見つからない場合は空文字を返す
+            return "";
+        }
+
+        /// <summary>
+        /// ゲームデータのパスを手動で設定します
+        /// </summary>
+        public static bool SetCustomGameDataPath(string customPath)
+        {
+            if (!Directory.Exists(customPath))
+            {
+                Console.WriteLine($"エラー:指定されたパス\"{customPath}\"が見つかりません。");
+                return false;
+            }
+
+            gameDataPath = customPath;
+            metaPath = gameDataPath + @"\meta";
+            datPath = gameDataPath + @"\dat";
+
+            if (!File.Exists(metaPath))
+            {
+                Console.WriteLine($"警告:指定されたパスにデータベース\"{metaPath}\"が見つかりません。");
+                return false;
+            }
+
+            return true;
         }
 
         // データベース関連の設定

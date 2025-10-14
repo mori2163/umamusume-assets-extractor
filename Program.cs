@@ -10,14 +10,39 @@ Console.WriteLine("自分が見たいファイルがなかった場合はウマ�
 Console.WriteLine($"ダンプしたファイルは{extractFolderName}というフォルダーに保存されます。");
 Console.WriteLine();
 
-// データベースが存在するかの確認
-if (!File.Exists(metaPath))
+// ゲームデータパスの確認と手動設定
+if (string.IsNullOrEmpty(gameDataPath))
 {
-    Console.WriteLine($"エラー:データベース\"{metaPath}\"が見つかりませんでした。");
-    Console.WriteLine("一度ゲームを起動してからもう一度試してください。");
-    Console.WriteLine("何かキーを押して終了します...");
-    Console.ReadKey();
-    Environment.Exit(0);
+    Console.WriteLine("エラー:ゲームデータのパスが自動で見つかりませんでした。");
+    Console.WriteLine();
+    
+    bool pathSet = false;
+    while (!pathSet)
+    {
+        Console.WriteLine("ゲームデータが保存されているフォルダーのパスを手動で入力してください。");
+        Console.WriteLine("(例: C:\\Program Files (x86)\\Steam\\steamapps\\common\\UmamusumePrettyDerby_Jpn\\UmamusumePrettyDerby_Jpn_Data\\Persistent)");
+        Console.Write("パス:");
+        string customPath = Console.ReadLine();
+        
+        if (string.IsNullOrEmpty(customPath))
+        {
+            Console.WriteLine("エラー:パスが入力されていません。もう一度入力してください。");
+            Console.WriteLine();
+            continue;
+        }
+        
+        if (SetCustomGameDataPath(customPath))
+        {
+            pathSet = true;
+            Console.WriteLine($"パスが設定されました: {gameDataPath}");
+            Console.WriteLine();
+        }
+        else
+        {
+            Console.WriteLine("もう一度入力してください。");
+            Console.WriteLine();
+        }
+    }
 }
 
 // ログを表示するかの確認
